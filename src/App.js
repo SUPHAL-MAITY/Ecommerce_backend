@@ -47,7 +47,7 @@ app.use(express.static("public"))
 // import userRouter from "./routes/user.routes.js"
 
 
- app.use("/api/v1/test",testRouter)
+ app.use("/api/v1",testRouter)
 // app.use("/api/v1",authRouter)
 // app.use("/api/v1/user",blogRouter)
 // app.use("/api/v1/admin",userRouter)
