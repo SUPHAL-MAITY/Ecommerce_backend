@@ -20,11 +20,7 @@ const userSchema=new Schema({
         required:true
 
     },
-    countryCode:{
-        type:Number,
-        required:true,
-        maxLength:2,
-    },
+
     phone:{
         type:Number,
         required:true,
@@ -33,13 +29,13 @@ const userSchema=new Schema({
     
     role:{
         type: String,
-        enum: ['admin', 'buyer'], // Roles with specific permissions
-        default: 'buyer',
+        enum: ['admin', 'customer'], // Roles with specific permissions
+        default: 'customer',
     },
    
    
     password:{
-        type:String,
+        type:String,  ///hashed password
         required:true
     },
     profileUrl:{
