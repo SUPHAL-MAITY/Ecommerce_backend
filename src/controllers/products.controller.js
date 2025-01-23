@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/AsyncHandler.js";
-import { Products } from "../models/products.model.js";
+import { Products } from "../models/product.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
@@ -135,7 +135,10 @@ export const deleteProductController=asyncHandler(async(req,res)=>{
 
 export const filteredProductsController=asyncHandler(async(req,res)=>{
 
+    console.log("filter started")
+
     const {priceMin,priceMax,category}=req.query;
+    console.log(priceMin,priceMax,category)
 
     const filter={}
 
@@ -153,9 +156,9 @@ export const filteredProductsController=asyncHandler(async(req,res)=>{
     }
 
 
-
+  console.log("filter",filter)
     const products=await Products.find(filter)
-
+    console.log(products)
     if(!products){
         throw new ApiError(400,"products not found")
     }

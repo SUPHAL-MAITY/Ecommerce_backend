@@ -44,16 +44,17 @@ app.use(express.static("public"))
 
  import testRouter from "./routes/test.routes.js"
  import checkoutRouter from "./routes/stripe.routes.js"
-// import authRouter from "./routes/auth.routes.js"
-// import blogRouter from "./routes/blogs.routes.js"
-// import userRouter from "./routes/user.routes.js"
+ import productRouter from "./routes/products.routes.js"
+ import  categoryRouter from "./routes/category.routes.js"
 
 
  app.use("/api/v1",testRouter)
  app.use("/api/v1",checkoutRouter)  
-// app.use("/api/v1",authRouter)
-// app.use("/api/v1/user",blogRouter)
-// app.use("/api/v1/admin",userRouter)
+ app.use("/api/v1",productRouter)  
+ app.use("/api/v1",categoryRouter)  
+
+
+
 
 
 
