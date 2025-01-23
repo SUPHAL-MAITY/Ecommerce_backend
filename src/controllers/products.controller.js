@@ -128,3 +128,67 @@ export const deleteProductController=asyncHandler(async(req,res)=>{
 })
 
 
+
+
+////filtered products controller 
+
+
+export const filteredProductsController=asyncHandler(async(req,res)=>{
+
+    const {priceMin,priceMax,category}=req.query;
+
+    const filter={}
+
+    if(category){
+        filter.category=category
+    }
+
+    if(priceMin && priceMax){
+        filter.price={}
+
+        filter.price.$gte=priceMin;
+        filter.price.$lte=priceMax;
+
+
+    }
+
+
+
+    const products=await Products.find(filter)
+
+    if(!products){
+        throw new ApiError(400,"products not found")
+    }
+
+
+    return res.status(200).json(new ApiResponse(200,{products,legth:products.length},"products are fetched successfully"))
+
+    
+
+
+
+
+})
+
+
+///searched products controller 
+
+
+export const searchedProductsController=asyncHandler(async(req,res)=>{
+    const {search}=req.query;
+    if(!search){
+        throw new ApiError(400,"please provide the search query")
+    }
+    const products=await Products.find({title:{$regex:search,$options:"i"}})
+
+    if(!products){
+        throw new ApiError(400,"products not found")
+    }
+
+    return res.status(200).json(new ApiResponse(200,products,"products are fetched successfully"))
+})
+
+
+
+
+
