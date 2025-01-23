@@ -46,12 +46,16 @@ app.use(express.static("public"))
  import checkoutRouter from "./routes/stripe.routes.js"
  import productRouter from "./routes/products.routes.js"
  import  categoryRouter from "./routes/category.routes.js"
+ import reviewRouter from "./routes/review.routes.js"
+ import userRouter from "./routes/user.routes.js"
 
 
  app.use("/api/v1",testRouter)
  app.use("/api/v1",checkoutRouter)  
  app.use("/api/v1",productRouter)  
  app.use("/api/v1",categoryRouter)  
+ app.use("/api/v1",reviewRouter)  
+ app.use("/api/v1",userRouter)  
 
 
 

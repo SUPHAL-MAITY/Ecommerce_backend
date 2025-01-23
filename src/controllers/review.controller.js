@@ -14,8 +14,14 @@ export const createReviewController=asyncHandler(async(req,res)=>{
     }
     
     ////// get the user id from the req.user._id 
+    
 
-    const userId=req.user._id;
+    //// open  it later 
+    // let userId=req.user._id ;
+
+   
+
+
 
     const review=await Reviews.create({
         productId,

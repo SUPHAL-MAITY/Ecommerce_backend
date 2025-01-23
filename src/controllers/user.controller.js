@@ -58,7 +58,7 @@ export const loginUserController=asyncHandler(async(req,res)=>{
      }
 
 
-     return res.status(200).cookies("accessToken",accessToken).json(new ApiResponse(200,user,"User Logged In Sucessfully"))
+     return res.status(200).cookie("accessToken",accessToken).json(new ApiResponse(200,user,"User Logged In Sucessfully"))
 
       
 
