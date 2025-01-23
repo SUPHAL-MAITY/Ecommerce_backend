@@ -51,7 +51,7 @@ export const updateCategoryController=asyncHandler(async(req,res)=>{
         throw new ApiError(400,"category not updated")
     }
 
-    return res.status(200).json(new ApiResponse(200,category,"category updated succesfully"))
+    return res.status(200).json(new ApiResponse(200,{},"category updated succesfully"))
  
 
 })
