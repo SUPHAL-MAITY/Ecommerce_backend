@@ -66,6 +66,36 @@ export const  getAllProductsController=asyncHandler(async(req,res)=>{
 
 })
 
+/// get product with review
+export const  getAllProductsWithReviewController=asyncHandler(async(req,res)=>{
+
+    const page=parseInt(req.query.page)|| 1;
+    const limit= req.query.limit || 10;
+    const skip=(page-1)*limit;
+
+    const products=await Products.aggregate([
+        {$sort :{createdAt:-1}},
+        {$skip : skip},
+        {$limit:limit },
+        {$lookup:{
+            from:"reviews",
+            localField:"_id",
+            foreignField:"productId",
+            as:"reviews"
+        }}
+    ])
+
+   
+    
+    if(!products){
+        throw new ApiError(400,"Products not found while fetching all products")
+    }
+
+    return res.status(200).json(new ApiResponse(200,products,"products are fetched successfully"))
+
+})
+
+
 ///// get single product by id
 
 export const singleProductController=asyncHandler(async(req,res)=>{

@@ -10,6 +10,9 @@ import { createReviewController, deleteReviewController, getAllProductReviewsCon
 
 const router=Router()
 
+getAllProductsWithReviewController
+
+
 
 router.route("/create-review").post(createReviewController)
 router.route("/update-review/:reviewId").put(updateReviewController)
