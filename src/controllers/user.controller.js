@@ -171,5 +171,12 @@ export const searchUserController=asyncHandler(async(req,res)=>{
 
 })
 
+export const uploadUserImage=asyncHandler(async(req,res)=>{
+    let imagePath;
+    imagePath=req.file
+    console.log(imagePath)
+     return res.status(200).json(200,{},"ok")
+})
+
 
 
