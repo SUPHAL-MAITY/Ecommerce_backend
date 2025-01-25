@@ -10,7 +10,7 @@ import { createReviewController, deleteReviewController, getAllProductReviewsCon
 
 const router=Router()
 
-getAllProductsWithReviewController
+
 
 
 
