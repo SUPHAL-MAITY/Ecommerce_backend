@@ -8,7 +8,7 @@ import { Reviews } from "../models/review.model.js";
 
 
 export const createReviewController=asyncHandler(async(req,res)=>{
-    const {productId,rating,comment}=req.body;
+    const {productId,rating,comment,userId}=req.body;
     if(!productId || !rating){
         throw new ApiError(400,"please provide productId and rating  for creating a review")
     }
@@ -46,7 +46,7 @@ export const createReviewController=asyncHandler(async(req,res)=>{
 
 export const updateReviewController=asyncHandler(async(req,res)=>{
     const {reviewId}=req.params;
-    const {rating,comment}=req.body;
+    const {rating,comment,userId}=req.body;
     if(!reviewId){
         throw new ApiError(400,"please provide the review id")
     }
@@ -56,13 +56,20 @@ export const updateReviewController=asyncHandler(async(req,res)=>{
     if(!comment){
         throw new ApiError(400,"please provide the comment")
     }
+
+     //// open  it later 
+    // let userId=req.user._id ;
+
     const review=await Reviews.findByIdAndUpdate(reviewId,{
         rating,
-        comment
+        comment,
+        userId
     })
     if(!review){
         throw new ApiError(400,"review not updated")
     }
+
+    
 
     return res.status(200).json(new ApiResponse(200,review,"review updated successfully"))
 
@@ -70,14 +77,14 @@ export const updateReviewController=asyncHandler(async(req,res)=>{
 
 
 
-export const getAllReviewsController=asyncHandler(async(req,res)=>{
+export const getAllProductReviewsController=asyncHandler(async(req,res)=>{
 
     const page=parseInt(req.query.page)|| 1;
     const limit=req.query.limit || 10;
     const skip=(page-1)*limit;
 
-
-    const reviews=await Reviews.find({}).skip(skip).limit(limit).sort({createdAt:-1})
+    const {productId}=req.params;
+    const reviews=await Reviews.find({productId}).skip(skip).limit(limit).sort({createdAt:-1})
 
     if(!reviews){
         throw new ApiError(400,"reviews not found")
