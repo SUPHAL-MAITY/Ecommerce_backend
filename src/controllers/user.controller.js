@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
  export  const createUserController=asyncHandler(async(req,res)=>{
@@ -173,9 +174,15 @@ export const searchUserController=asyncHandler(async(req,res)=>{
 
 export const uploadUserImage=asyncHandler(async(req,res)=>{
     let imagePath;
-    imagePath=req.file
+    imagePath=req.file.path
     console.log(imagePath)
-     return res.status(200).json(200,{},"ok")
+
+
+    if(imagePath){
+        const cloudinaryResponse=await  uploadOnCloudinary(imagePath)
+        console.log("url",cloudinaryResponse.url)
+    }
+    return res.status(200).json(200,{},"ok")
 })
 
 
