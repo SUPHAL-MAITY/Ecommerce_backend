@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createProductController, deleteProductController, filteredProductsController, getAllProductsController, searchedProductsController, singleProductController, updateProductController } from "../controllers/products.controller.js";
+import {createProductController, deleteProductController, filteredProductsController, getAllProductsController, getAllProductsWithReviewController, searchedProductsController, singleProductController, updateProductController } from "../controllers/products.controller.js";
 
 
 
@@ -10,7 +10,7 @@ import {createProductController, deleteProductController, filteredProductsContro
 const router=Router()
 
 
-
+router.route("/get-all-products-with-review").get(getAllProductsWithReviewController)
 router.route("/filter").get(filteredProductsController)
 router.route("/search").get(searchedProductsController)
 router.route("/create-product").post(createProductController)
