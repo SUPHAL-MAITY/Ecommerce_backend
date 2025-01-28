@@ -31,7 +31,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
 export const loginUserController=asyncHandler(async(req,res)=>{
-    const {email,password}=req.body;
+    const {email,password}=req.body.values;
     if(!email || !password){
         throw new ApiError(400,"All fields are necessary while login")
     }
