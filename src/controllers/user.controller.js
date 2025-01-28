@@ -48,7 +48,7 @@ export const loginUserController=asyncHandler(async(req,res)=>{
     const isMatch=await user.comparePassword(password)
 
     if(!isMatch){
-        throw new ApiError(400,"Invalid Credentials")
+        throw new ApiError(401,"Invalid Credentials")
     }
 
      const accessToken=user.generateAccessToken()
