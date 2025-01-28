@@ -173,6 +173,9 @@ export const searchUserController=asyncHandler(async(req,res)=>{
 })
 
 export const uploadUserImage=asyncHandler(async(req,res)=>{
+    const {id}=req.body;
+
+    // const id=req.user._id;
     let imagePath;
     imagePath=req.file.path
     console.log(imagePath)
@@ -181,8 +184,18 @@ export const uploadUserImage=asyncHandler(async(req,res)=>{
     if(imagePath){
         const cloudinaryResponse=await  uploadOnCloudinary(imagePath)
         console.log("url",cloudinaryResponse.url)
+        const user=await User.findByIdAndUpdate({_id:id},{profileUrl:cloudinaryResponse.url})
+        return res.status(200).json(new ApiResponse(200,user,"user image uploaded successfully"))
+       
+    
+    }else{
+        throw new ApiError(400," image not uploaded successfully")
     }
-    return res.status(200).json(200,{},"ok")
+
+    
+
+    
+   
 })
 
 

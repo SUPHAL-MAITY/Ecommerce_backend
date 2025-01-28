@@ -37,9 +37,6 @@ app.use(express.static("public"))
 
 
 
-
-
-
 ///// router middlewares 
 
  import testRouter from "./routes/test.routes.js"
