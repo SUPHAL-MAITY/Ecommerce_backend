@@ -3,11 +3,29 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Category } from "../models/category.model.js";
 
+const capitalizeFirstLetter=(str)=>{
+   return  str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()
+   
+
+}
+
+
 ///create category
+
+
 export const createCategoryController=asyncHandler(async(req,res)=>{
-    const {name}=req.body;
+
+    let {name}=req.body;
+    // console.log("name",name)
     if(!name){
         throw new ApiError(400,"please provide the category name")
+    }
+
+    name=capitalizeFirstLetter(name)
+
+    const brand=await Category.findOne({name})
+    if(brand){
+        throw new ApiError(409,"Brand name already exists")
     }
 
     const category=await Category.create({
