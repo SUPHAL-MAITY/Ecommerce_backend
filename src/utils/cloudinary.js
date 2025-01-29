@@ -12,19 +12,18 @@ dotenv.config();
     api_key: process.env.CLOUDINARY_API_KEY , 
     api_secret:  process.env.CLOUDINARY_API_SECRET
 
-    // cloud_name: 'dx8bbm8j1', 
-    // api_key: '114998339547257', 
-    // api_secret: 'Fktn6zExEoLacJKprgerFM9W_GQ'
+    
 
    
 });
-console.log('Cloudinary Config:', cloudinary.config());
+
+// console.log('Cloudinary Config:', cloudinary.config());
 
 const uploadOnCloudinary=async(localFilePath)=>{
     try {
 
       
-
+        /// if no path return 
         if(!localFilePath) return null;
 
         //upload file on the cloudinary
@@ -32,6 +31,7 @@ const uploadOnCloudinary=async(localFilePath)=>{
             resource_type:"auto",
         })
         console.log("file has been uploaded on cloudinary successfully",response)
+        //deleting the file from server after successful uploading 
         fs.unlinkSync(localFilePath)
         return response;
     } catch (error) {

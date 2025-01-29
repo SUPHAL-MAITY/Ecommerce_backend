@@ -2,6 +2,8 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Category } from "../models/category.model.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
+
 
 const capitalizeFirstLetter=(str)=>{
    return  str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()
@@ -16,25 +18,64 @@ const capitalizeFirstLetter=(str)=>{
 export const createCategoryController=asyncHandler(async(req,res)=>{
 
     let {name}=req.body;
-    // console.log("name",name)
+
+
+    ///consoling the image 
+    console.log("image", req.file)
+    console.log("imagePath", req.file.path)
+
+
+    
+    /// validating the name
+
     if(!name){
         throw new ApiError(400,"please provide the category name")
     }
 
-    name=capitalizeFirstLetter(name)
+    if(!req.file || !req.file.path){
+        throw new ApiError(400,"image file is necessary")
+    }
 
+
+
+    ///capitalize  the first letter of name 
+    name=capitalizeFirstLetter(name)
+   
+    /// check existance of brand 
     const brand=await Category.findOne({name})
     if(brand){
         throw new ApiError(409,"Brand name already exists")
     }
 
+
+    /// uploading the image on cloudinary
+  
+
+    const response=await uploadOnCloudinary(req.file.path)
+    if(!response){
+        throw new ApiError(400,"image has not been uploaded on cloudinary")
+    }
+
+ 
+
+    
     const category=await Category.create({
-        name
+        name,imageUrl:response.url
     })
 
     if(!category){
         throw new ApiError(400,"category not created")
     }
+
+   
+      
+        
+ 
+
+    
+    
+ 
+
 
     return res.status(200).json(new ApiResponse(200,category,"category created succesfully"))
 })

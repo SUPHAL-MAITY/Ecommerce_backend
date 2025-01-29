@@ -8,6 +8,10 @@ const categorySchema=new Schema({
         type:String,
         required:true,
     },
+    imageUrl:{
+        type:String,
+        
+    }
   
   
     
