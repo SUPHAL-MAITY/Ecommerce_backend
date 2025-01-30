@@ -20,8 +20,11 @@ export const createProductController=asyncHandler(async(req,res)=>{
  }
 
 
+
  const files=req.files;
-//  console.log("file",files)
+ console.log("file",files)
+
+
 
 
  if(!files || files.length===0){

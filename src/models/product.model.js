@@ -49,7 +49,7 @@ const productSchema=new Schema({
     },
     gender:{
         type:String,
-        enum:["male","female","unisex"]
+        enum:["Men","Woman","Unisex"]
     },
     discountType:{
         type:String,
