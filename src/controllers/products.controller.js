@@ -13,9 +13,9 @@ export const createProductController=asyncHandler(async(req,res)=>{
 
  
 
- const {title ,description,price,discountPrice,categoryId,stock,gender}=req.body;
+ const {title ,description,price,discountPrice,categoryId,stock,gender,discountType}=req.body;
 
- if(!title || !description || !price || !discountPrice || !categoryId || !stock || !gender){
+ if(!title || !description || !price || !discountPrice || !categoryId || !stock || !gender || !discountType){
     throw new ApiError(400,"please provide all required fields for creating a product")
  }
 
@@ -51,7 +51,8 @@ if(imagePaths.length===0){
     categoryId,
     stock,
     gender,
-    images:imagePaths
+    images:imagePaths,
+    discountType
 
 
  })
