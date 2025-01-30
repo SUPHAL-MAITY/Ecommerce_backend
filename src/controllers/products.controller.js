@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { Products } from "../models/product.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 
 
@@ -12,11 +13,35 @@ export const createProductController=asyncHandler(async(req,res)=>{
 
  
 
- const {title ,description,price,discountPrice,categoryId}=req.body;
+ const {title ,description,price,discountPrice,categoryId,stock,gender}=req.body;
 
- if(!title || !description || !price || !discountPrice || !categoryId){
+ if(!title || !description || !price || !discountPrice || !categoryId || !stock || !gender){
     throw new ApiError(400,"please provide all required fields for creating a product")
  }
+
+
+ const files=req.files;
+//  console.log("file",files)
+
+
+ if(!files || files.length===0){
+    throw new ApiError(400,"please provide the product images")
+ }
+
+ const imagePaths=[];
+
+ for(let file of files){
+    const response=await uploadOnCloudinary(file.path)
+    if(!response){
+        throw new ApiError(400,"image has not been uploaded on cloudinary")
+    }
+    imagePaths.push(response.url)
+ }
+
+//  console.log("image Paths",imagePaths)
+if(imagePaths.length===0){
+    throw new ApiError(400,"image path is empty")
+}
 
  const product=await Products.create({
     title,
@@ -24,6 +49,9 @@ export const createProductController=asyncHandler(async(req,res)=>{
     price,
     discountPrice,
     categoryId,
+    stock,
+    gender,
+    images:imagePaths
 
 
  })
@@ -33,20 +61,19 @@ export const createProductController=asyncHandler(async(req,res)=>{
  }
 
 
-
-
     
 return res.status(200).json(new  ApiResponse(200,product,"product created successfully",))
     
     
-    
-   
-   
-
-
+     
 
 
 })
+
+
+
+
+
 
 /// get all products by pagination
 export const  getAllProductsController=asyncHandler(async(req,res)=>{

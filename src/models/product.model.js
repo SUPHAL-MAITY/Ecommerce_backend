@@ -42,6 +42,14 @@ const productSchema=new Schema({
     ratingCount:{
         type:Number,  
         default:0
+    },
+    stock:{
+        type:Number,
+        required:true,
+    },
+    gender:{
+        type:String,
+        enum:["male","female","unisex"]
     }
   
     
