@@ -93,7 +93,11 @@ export const  getAllProductsController=asyncHandler(async(req,res)=>{
         throw new ApiError(400,"Products not found while fetching all products")
     }
 
-    return res.status(200).json(new ApiResponse(200,products,"products are fetched successfully"))
+    const totalProductsCount=await Products.countDocuments();
+
+    const totalPages=Math.ceil(totalProductsCount/limit);
+
+    return res.status(200).json(new ApiResponse(200,{products,totalPages},"products are fetched successfully"))
 
 })
 
@@ -198,20 +202,20 @@ export const filteredProductsController=asyncHandler(async(req,res)=>{
 
     console.log("filter started")
 
-    const {priceMin,priceMax,category}=req.query;
+    const {priceMin,priceMax,gender}=req.query;
     console.log(priceMin,priceMax,category)
 
     const filter={}
 
-    if(category){
-        filter.category=category
+    if(gender){
+        filter.gender=gender;
     }
 
     if(priceMin && priceMax){
-        filter.price={}
+        filter.discountPrice={}
 
-        filter.price.$gte=priceMin;
-        filter.price.$lte=priceMax;
+        filter.discountPrice.$gte=priceMin;
+        filter.discountPrice.$lte=priceMax;
 
 
     }
