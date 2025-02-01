@@ -203,7 +203,7 @@ export const filteredProductsController=asyncHandler(async(req,res)=>{
     console.log("filter started")
 
     const {priceMin,priceMax,gender}=req.query;
-    console.log(priceMin,priceMax,category)
+    console.log(priceMin,priceMax,gender)
 
     const filter={}
 
