@@ -211,7 +211,7 @@ export const filteredProductsController=asyncHandler(async(req,res)=>{
         filter.gender=gender;
     }
 
-    if(priceMin && priceMax){
+    if(!isNaN(priceMin ) || !isNaN(priceMax) ){
         filter.discountPrice={}
 
         filter.discountPrice.$gte=priceMin;
