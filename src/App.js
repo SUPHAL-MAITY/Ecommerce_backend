@@ -16,8 +16,8 @@ const app=express()
 app.use(cors({
     // origin: process.env.CORS_ORIGIN, 
     // credentials: true
-       origin:"*",
-    // origin: 'http://localhost:5173',  // Allow requests from your frontend's origin
+    //    origin:"*",
+    origin: 'http://localhost:5173',  // Allow requests from your frontend's origin
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow the methods you need
     
     credentials: true,
