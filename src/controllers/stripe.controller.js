@@ -55,7 +55,7 @@ export const createCheckoutSession=asyncHandler(async(req,res)=>{
         payment_method_types:["card"],
         line_items:lineItems,
         mode:"payment",
-        success_url:"http://localhost:5173/success",
+        success_url:`http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url:"http://localhost:5173/fail",
         metadata: {
             userId: 23343565,
@@ -68,40 +68,37 @@ export const createCheckoutSession=asyncHandler(async(req,res)=>{
 })  
 
 
-//webhook endpoint
-export const webhookController=asyncHandler(async(req,res)=>{
-    const sig = req.headers["stripe-signature"]; // Stripe sends a signature for security
-  
-    let event;
-    try {
-      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-    } catch (err) {
-      console.error("⚠️ Webhook signature verification failed:", err.message);
-      return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-  
-    // Handle different event types
-    if (event.type === "payment_intent.succeeded") {
-      const paymentIntent = event.data.object;
-  
-      // Save the order in the database
 
-      console.log("order saved")
-    //   const newOrder = new Order({
-    //     userId: paymentIntent.metadata.userId, // Get from Stripe metadata
-    //     items: JSON.parse(paymentIntent.metadata.items), // Convert metadata back to JSON
-    //     totalAmount: paymentIntent.amount_received / 100, // Convert cents to dollars
-    //     paymentIntentId: paymentIntent.id,
-    //     paymentStatus: "completed",
-    //   });
+
+
+
+export const verifyController=asyncHandler(async(req,res)=>{
+
+    const { session_id } = req.query;
+
+    try {
+      const session = await stripe.checkout.sessions.retrieve(session_id);
   
-    //   await newOrder.save();
-    //   console.log("✅ Order saved successfully!");
-    // }
+      if (session.payment_status !== "paid") {
+        return res.status(400).json({ error: "Payment not completed" });
+      }
+     
+
   
-    res.json({ received: true });
+      res.json({
+        payment_status: session.payment_status,
+        userDetails: JSON.parse(session.metadata?.userDetails || "{}"),
+        cartItems: JSON.parse(session.metadata?.cartItems || "[]"),
+        amount_total: session.amount_total,
+        payment_intent: session.payment_intent,
+      });
+    } catch (error) {
+      console.error("Error verifying payment:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
 
 })
+
+
 
 
