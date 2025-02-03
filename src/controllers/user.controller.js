@@ -9,6 +9,7 @@ import { Reviews } from "../models/review.model.js";
  export  const createUserController=asyncHandler(async(req,res)=>{
     
     const {name,email,address,phone,password,profileUrl}=req.body.values
+    
     if(!name || !email || !address || !phone || !password ){
         throw new ApiError(400,"All fields are necessary while creating a user")
     }
