@@ -10,26 +10,17 @@ const orderItemSchema=new Schema({
         required:true,
         
     },
-    product:{
-        productId:{
+    productId:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"Orders",
             required:true,
-        
-      },
-      quantity:{
-        type:Number,
-        required:true,
-    },
-
-
-
-    },
-    
-  
-
-   
-  
+    }, 
+      
+    quantity:{
+      type:Number,
+      required:true,
+    },   
+       
     price:{
         type:Number,
         required:true,
