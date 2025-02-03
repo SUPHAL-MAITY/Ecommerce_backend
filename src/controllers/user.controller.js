@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import { Reviews } from "../models/review.model.js";
 
 
  export  const createUserController=asyncHandler(async(req,res)=>{
@@ -200,4 +201,23 @@ export const uploadUserImage=asyncHandler(async(req,res)=>{
 })
 
 
+
+export const addAddressController=asyncHandler(async(req,res)=>{
+
+    const {id,address}=req.body;
+
+    if(!id || !address){
+        throw new ApiError(400,"id and address are necessary while adding address")
+    }
+
+    const user=await User.findByIdAndUpdate({_id:id},{$push:{address:address}})
+
+    if(!user){
+        throw new ApiError(400,"address not added to the user array")
+    }
+
+    return res.status(200).json(new ApiResponse(200,user,"address added to the user array"))
+
+
+})
 
