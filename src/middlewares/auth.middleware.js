@@ -20,7 +20,7 @@ export const verifyJwtToken=asyncHandler(async(req,res,next)=>{
     try {
         console.log("🔑 Secret Key:", process.env.ACCESS_TOKEN_SECRET);
 
-        let decodedAccessToken=jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+        decodedAccessToken=jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
         console.log("decoded access token",decodedAccessToken)
 
         
@@ -40,8 +40,10 @@ export const verifyJwtToken=asyncHandler(async(req,res,next)=>{
     }
 
     if(decodedAccessToken){
-        req.user._id=decodedAccessToken._id  /////may change here
-        return next()
+        console.log("id",decodedAccessToken._id)
+
+        req.user=decodedAccessToken._id  /////may change here
+         next()
     }
 
     
