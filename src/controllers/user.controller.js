@@ -203,8 +203,9 @@ export const uploadUserImage=asyncHandler(async(req,res)=>{
 
 
 export const addAddressController=asyncHandler(async(req,res)=>{
-
+     //// id has to be passed from req.user._id
     const {id,address}=req.body;
+    console.log("id and address",id,address)
 
     if(!id || !address){
         throw new ApiError(400,"id and address are necessary while adding address")
