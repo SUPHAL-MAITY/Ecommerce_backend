@@ -59,11 +59,13 @@ export const createCheckoutSession=asyncHandler(async(req,res)=>{
         cancel_url:"http://localhost:5173/fail",
         metadata: {
             userId: 23343565,
-            // items: JSON.stringify(items),
+            
           },
     })
 
     res.json({id:session.id})
+
+    console.log("session",session)
     
 })  
 
@@ -83,14 +85,17 @@ export const verifyController=asyncHandler(async(req,res)=>{
         return res.status(400).json({ error: "Payment not completed" });
       }
      
-
+      
   
       res.json({
         payment_status: session.payment_status,
-        userDetails: JSON.parse(session.metadata?.userDetails || "{}"),
-        cartItems: JSON.parse(session.metadata?.cartItems || "[]"),
+        // userDetails: JSON.parse(session.metadata?.userDetails ),
+        // lineItems:lineItems,
+        // cartItems: session.metadata?.cartItems ,
         amount_total: session.amount_total,
         payment_intent: session.payment_intent,
+
+        
       });
     } catch (error) {
       console.error("Error verifying payment:", error);

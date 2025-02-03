@@ -45,6 +45,7 @@ app.use(express.static("public"))
  import  categoryRouter from "./routes/category.routes.js"
  import reviewRouter from "./routes/review.routes.js"
  import userRouter from "./routes/user.routes.js"
+ import orderRouter from "./routes/order.routes.js"
 
 
  app.use("/api/v1",testRouter)
@@ -53,6 +54,7 @@ app.use(express.static("public"))
  app.use("/api/v1",categoryRouter)  
  app.use("/api/v1",reviewRouter)  
  app.use("/api/v1",userRouter)  
+ app.use("/api/v1",orderRouter)
 
 
 

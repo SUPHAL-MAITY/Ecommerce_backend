@@ -30,6 +30,10 @@ const orderSchema=new Schema({
         type:String,
        
     },
+    paymentIntentId:{
+        type:String,
+        required:true,
+    }
   
   
   
