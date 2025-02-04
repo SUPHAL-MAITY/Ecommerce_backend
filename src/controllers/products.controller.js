@@ -205,24 +205,25 @@ export const filteredProductsController=asyncHandler(async(req,res)=>{
     const {priceMin,priceMax,gender}=req.query;
     console.log(priceMin,priceMax,gender)
 
-    const filter={}
+    const filter=[]
 
     if(gender){
-        filter.gender=gender;
+       filter.push({gender:gender})   
     }
 
-    if(!isNaN(priceMin ) || !isNaN(priceMax) ){
-        filter.discountPrice={}
-
-        filter.discountPrice.$gte=priceMin;
-        filter.discountPrice.$lte=priceMax;
-
+    if(!isNaN(priceMin ) && !isNaN(priceMax) ){
+        filter.push({discountPrice:{$gte:priceMin,$lte:priceMax}})
 
     }
 
 
-  console.log("filter",filter)
-    const products=await Products.find(filter)
+    const query=filter.length > 1 ? { $and : filter } : filter[0]
+    
+
+
+    console.log("filter",filter)
+    
+    const products=await Products.find( query)
     console.log(products)
     if(!products){
         throw new ApiError(400,"products not found")
