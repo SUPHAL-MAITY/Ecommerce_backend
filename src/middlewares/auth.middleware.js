@@ -29,6 +29,7 @@ export const verifyJwtToken=asyncHandler(async(req,res,next)=>{
 
         if(error.name==="TokenExpiredError"){
             console.log("acess token is expired")
+            throw new ApiError(401, "access token is invalid.");
         }else{
 
             console.log("access token is invalid")
