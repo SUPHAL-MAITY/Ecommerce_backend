@@ -21,7 +21,7 @@ router.route("/edit").post(editUserController)
 router.route("/delete").delete(verifyJwtToken,isAdmin,deleteUserController)
 router.route("/upload-user").post(upload.single('user'),uploadUserImage)
 
-router.route("/add-address").post(addAddressController)
+router.route("/add-address").post(verifyJwtToken,addAddressController)
 
 
 

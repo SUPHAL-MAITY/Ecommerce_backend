@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {createOrderController } from "../controllers/order.controller.js";
+import { verifyJwtToken } from "../middlewares/auth.middleware.js";
 
 
 
@@ -7,7 +8,7 @@ import {createOrderController } from "../controllers/order.controller.js";
 const router=Router()
 
 
-router.route("/create-order").post(createOrderController )
+router.route("/create-order").post(verifyJwtToken,  createOrderController )
 
 
 export default router;

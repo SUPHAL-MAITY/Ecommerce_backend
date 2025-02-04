@@ -5,8 +5,14 @@ import { Orders } from "../models/orders.model.js";
 
 
 
+
+
 export const createOrderController=asyncHandler(async(req,res)=>{
-    const {userId,status,totalPrice,shippingAddress,paymentMethod,paymentIntentId}=req.body;
+    const userId=req.user
+    if(!userId){
+        throw new ApiError(400,"please provide the user id")
+    }
+    const {status,totalPrice,shippingAddress,paymentMethod,paymentIntentId}=req.body;
     if(!userId || !status || !totalPrice || !shippingAddress || !paymentMethod || !paymentIntentId){
         throw new ApiError(400,"please provide all required fields for creating an order")
     }
