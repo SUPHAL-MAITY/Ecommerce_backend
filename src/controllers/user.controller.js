@@ -232,3 +232,27 @@ export const addAddressController=asyncHandler(async(req,res)=>{
 
 })
 
+
+
+export const getAddressController=asyncHandler(async(req,res)=>{
+    const id=req.user;
+
+    if(!id){
+        throw new ApiError(400,"id is necessary while getting address")
+    }
+
+
+    const user=await User.findById(id)
+    if(!user){
+        throw new ApiError(400,"user not found")
+    }
+
+    let addressList=[]
+    user.address.forEach((item)=>{
+        addressList.push(item)
+    })
+
+    return res.status(200).json(new ApiResponse(200,addressList,"address fetched successfully"))
+
+})
+
