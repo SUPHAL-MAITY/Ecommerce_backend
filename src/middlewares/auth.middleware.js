@@ -1,4 +1,5 @@
 import { asyncHandler } from "../utils/AsyncHandler.js";
+import { User } from "../models/user.model.js";
 
 import { ApiError } from "../utils/ApiError.js";
 import jwt from "jsonwebtoken"
@@ -50,5 +51,33 @@ export const verifyJwtToken=asyncHandler(async(req,res,next)=>{
     
 
 })
+
+
+
+export const isAdmin=asyncHandler(async(req,res,next)=>{
+    const id=req.user
+    if(!id){
+        throw new ApiError(400,"id not found while checking if user is admin")
+    }
+
+    const user=await User.findById(id)
+
+    if(!user){
+        throw new ApiError(400,"user not found while checking if user is admin")
+    }
+
+    if(user.role !=="admin"){
+        throw new ApiError(401,"user is not admin")
+    }
+
+    next()
+
+
+
+
+})
+
+
+
 
 
