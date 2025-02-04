@@ -17,8 +17,8 @@ router.route("/search").get(searchedProductsController)
 router.route("/create-product").post( upload.array("images",4) ,createProductController)
 router.route("/get-all-products").get( getAllProductsController)
 router.route("/get-single-product/:productId").get(singleProductController)
-router.route("/update/:productId").put(updateProductController)
-router.route("/delete").delete(deleteProductController)
+router.route("/update/:productId").put(verifyJwtToken,isAdmin,updateProductController)
+router.route("/delete").delete(verifyJwtToken,isAdmin,deleteProductController)
 
 
 
