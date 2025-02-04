@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {createProductController, deleteProductController, filteredProductsController, getAllProductsController, getAllProductsWithReviewController, searchedProductsController, singleProductController, updateProductController } from "../controllers/products.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
+import { verifyJwtToken,isAdmin } from "../middlewares/auth.middleware.js";
 
 
 
