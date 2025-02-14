@@ -79,7 +79,7 @@ return res.status(200).json(new  ApiResponse(200,product,"product created succes
 
 
 
-/// get all products by pagination
+/// get all products by pagination for users
 export const  getAllProductsController=asyncHandler(async(req,res)=>{
 
     const page=parseInt(req.query.page)|| 1;
@@ -100,6 +100,36 @@ export const  getAllProductsController=asyncHandler(async(req,res)=>{
     return res.status(200).json(new ApiResponse(200,{products,totalPages},"products are fetched successfully"))
 
 })
+
+///get all products from admin 
+
+export const  getAllProductsAdmincontroller=asyncHandler(async(req,res)=>{
+
+    const page=parseInt(req.query.page)|| 1;
+    const limit= req.query.limit || 5;
+    const skip=(page-1)*limit;
+
+
+    const products=await  Products.find({}).skip(skip).limit(limit).sort({createdAt:-1})
+    
+    if(!products){
+        throw new ApiError(400,"Products not found while fetching all products")
+    }
+
+    const totalProductsCount=await Products.countDocuments();
+
+    const totalPages=Math.ceil(totalProductsCount/limit);
+
+    return res.status(200).json(new ApiResponse(200,{products,totalPages},"products are fetched successfully"))
+
+})
+
+
+
+
+
+
+
 
 /// get product with review
 export const  getAllProductsWithReviewController=asyncHandler(async(req,res)=>{
@@ -224,7 +254,7 @@ export const filteredProductsController=asyncHandler(async(req,res)=>{
     console.log("filter",filter)
     
     const products=await Products.find( query)
-    console.log(products)
+    // console.log(products)
     if(!products){
         throw new ApiError(400,"products not found")
     }
@@ -256,8 +286,6 @@ export const searchedProductsController=asyncHandler(async(req,res)=>{
 
     return res.status(200).json(new ApiResponse(200,products,"products are fetched successfully"))
 })
-
-
 
 
 
