@@ -78,6 +78,8 @@ export const verifyController=asyncHandler(async(req,res)=>{
 
     const { session_id } = req.query;
 
+    
+
     try {
       const session = await stripe.checkout.sessions.retrieve(session_id);
   

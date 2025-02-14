@@ -12,7 +12,7 @@ const orderItemSchema=new Schema({
     },
     productId:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Orders",
+            ref:"Products",
             required:true,
     }, 
       
