@@ -29,3 +29,19 @@ export const createOrderItemsControler=asyncHandler(async(req,res)=>{
 
     return res.status(200).json(new ApiResponse(200,orderItem,"order item created successfully"))
 })
+
+
+export const getRecentOrdersController=asyncHandler(async(req,res)=>{
+
+    const page=parseInt(req.query.page)|| 1;
+    const limit=req.query.limit||5;
+    const skip=(page -1)*limit;
+
+    const orders=await OrderItems.find({}).skip(skip).limit(limit).populate("Orders").sort({createdAt:-1})
+
+    if(!orders){
+        throw new ApiError(400,"No orders found ")
+    }
+
+    return res.status(200).json(new ApiResponse(200,{orders,totalPages},"users fetched successfully"))
+})
