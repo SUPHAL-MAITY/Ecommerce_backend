@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createProductController, deleteProductController, filteredProductsController, getAllProductsAdmincontroller, getAllProductsController, getAllProductsWithReviewController, searchedProductsController, singleProductController, updateProductController } from "../controllers/products.controller.js";
+import {createProductController, deleteProductController, filteredProductsController, getAllProductsAdmincontroller, getAllProductsController, getAllProductsWithReviewController, getFilterAdminProductController, searchedProductsController, singleProductController, updateProductController } from "../controllers/products.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJwtToken,isAdmin } from "../middlewares/auth.middleware.js";
 
@@ -11,6 +11,9 @@ import { verifyJwtToken,isAdmin } from "../middlewares/auth.middleware.js";
 
 const router=Router()
 
+
+
+router.route("/get-filter-products").get(getFilterAdminProductController)
 router.route("/get-all-products").get( getAllProductsController)
 router.route("/get-all-admin-products").get( getAllProductsAdmincontroller)
 router.route("/get-single-product/:productId").get(singleProductController)

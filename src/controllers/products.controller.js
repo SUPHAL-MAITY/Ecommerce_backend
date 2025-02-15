@@ -288,4 +288,36 @@ export const searchedProductsController=asyncHandler(async(req,res)=>{
 })
 
 
+export const getFilterAdminProductController=asyncHandler(async(req,res)=>{
+
+ const {category}=req.query;
+
+
+ const page=parseInt(req.query.page)|| 1;
+ const limit= req.query.limit || 5;
+ const skip=(page-1)*limit;
+ 
+ if(!category){
+    throw new ApiError(400,"category is not obtained  in query")
+ }
+
+
+ const products=await Products.find({gender:category}).skip(skip).limit(limit).sort({createdAt:-1})
+
+ if(!products){
+    throw new ApiError(400,"Products not found while obtaining  category wise products")
+ }
+
+ const totalProductsCount=await Products.countDocuments({gender:category});
+
+    const totalPages=Math.ceil(totalProductsCount/limit);
+
+ return res.status(200).json(new ApiResponse(200,{products,totalPages},"products obtained successfully"))
+
+
+
+
+
+})
+
 
