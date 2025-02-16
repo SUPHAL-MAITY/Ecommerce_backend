@@ -278,7 +278,7 @@ export const searchedProductsController=asyncHandler(async(req,res)=>{
     if(!search){
         throw new ApiError(400,"please provide the search query")
     }
-    const products=await Products.find({title:{$regex:search,$options:"i"}})
+    const products=await Products.find({title:{$regex:search,$options:"i"}}).limit(5).sort({createdAt:-1})
 
     if(!products){
         throw new ApiError(400,"products not found")
