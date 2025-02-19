@@ -13,7 +13,7 @@ const router=Router()
 router.route("/get-user-address").get(verifyJwtToken,getAddressController)
 router.route("/get-all-users").get(getAllUsersController)
 router.route("/get-own-details").get(getOwnUserController)
-router.route("/search").get(searchUserController)
+router.route("/search-user").get(searchUserController)
 
 router.route("/signup").post(createUserController)
 router.route("/login").post(loginUserController)
