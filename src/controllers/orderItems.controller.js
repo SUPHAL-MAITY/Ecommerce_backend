@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { OrderItems } from "../models/orderItems.model.js";
+import mongoose from "mongoose";
 
 
 
@@ -56,4 +57,28 @@ export const getRecentOrdersController=asyncHandler(async(req,res)=>{
     }
 
     return res.status(200).json(new ApiResponse(200,{orders,totalPages},"users fetched successfully"))
+})
+
+
+export const getSearchRecentorderController=asyncHandler(async(req,res)=>{
+    
+    const q=req.query.q;
+    if(!q){
+        throw new ApiError(400,"No search query found for searching orders")
+    }
+
+    if(!mongoose.isValidObjectId(q)){
+        throw new ApiError(400,"it is not a valid object id")
+    }
+    const orders = await OrderItems.find({orderId:new mongoose.Types.ObjectId(q)})
+    
+
+    if(!orders){
+        throw new ApiError(400,"No orders found  while searching orders")
+    }
+
+
+
+    return res.status(200).json(new ApiResponse(200,orders,"users fetched successfully"))
+
 })
