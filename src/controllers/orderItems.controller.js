@@ -68,9 +68,9 @@ export const getSearchRecentorderController=asyncHandler(async(req,res)=>{
     }
 
     if(!mongoose.isValidObjectId(q)){
-        throw new ApiError(400,"it is not a valid object id")
+        throw new ApiError(401,"it is not a valid object id")
     }
-    const orders = await OrderItems.find({orderId:new mongoose.Types.ObjectId(q)})
+    const orders = await OrderItems.find({orderId:new mongoose.Types.ObjectId(q)}).populate("productId").populate("orderId")
     
 
     if(!orders){
