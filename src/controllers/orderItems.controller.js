@@ -32,6 +32,8 @@ export const createOrderItemsControler=asyncHandler(async(req,res)=>{
 })
 
 
+
+
 export const getRecentOrdersController=asyncHandler(async(req,res)=>{
 
     const page=parseInt(req.query.page)|| 1;
@@ -82,3 +84,64 @@ export const getSearchRecentorderController=asyncHandler(async(req,res)=>{
     return res.status(200).json(new ApiResponse(200,orders,"users fetched successfully"))
 
 })
+
+
+export const getRecentStatusOrdersController=asyncHandler(async(req,res)=>{
+
+    const page=parseInt(req.query.page)|| 1;
+    const limit=req.query.limit||5;
+    const skip=(page -1)*limit;
+
+    const status=req.query.q;
+    console.log(status)
+
+    // const orders=await OrderItems.find({}).skip(skip).limit(limit).populate("productId").populate("orderId").sort({createdAt:-1})
+    
+    const orderAggregation=[{
+        $lookup:{
+            from:"orders",
+            localField:"orderId",
+            foreignField:"_id",
+            as:"orders"
+
+    }
+},{$match:{"orders.status":`${status}`}}]
+
+
+const orders=await OrderItems.aggregate([...orderAggregation,{$sort:{createdAt:-1}},{$skip:skip},{$limit:limit}])
+
+
+
+if(!orders){
+        throw new ApiError(400,"No orders found ")
+    }
+
+    const totalOrderItems=await OrderItems.aggregate([...orderAggregation,{$count:"total"}])
+
+    if(!totalOrderItems){
+         throw new ApiError(400,"order counts fetched successfully")
+    }
+
+
+
+   console.log("total orders",totalOrderItems)
+
+   const totalOrderNo=totalOrderItems.length > 0 ? totalOrderItems[0]?.total : 0;
+   
+  
+
+    const totalOrders=await OrderItems.countDocuments()
+    if(!totalOrders){
+        throw new ApiError(400,"total orders not found")
+    }
+
+
+    const totalPages=Math.ceil(totalOrderNo/limit)
+    if(!totalPages){
+        throw new ApiError(400,"pages not found while counting the total pages")
+    }
+
+    return res.status(200).json(new ApiResponse(200,{orders,totalPages},"users fetched successfully"))
+})
+
+
