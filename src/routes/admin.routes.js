@@ -8,7 +8,7 @@ const router=Router()
 
 
 router.route("/admin-details").get(adminDashBoardController )
-router.route("/auth").get(adminAuthCheckController)
+router.route("/admin-auth").get(adminAuthCheckController)
 
 
 export default router;
