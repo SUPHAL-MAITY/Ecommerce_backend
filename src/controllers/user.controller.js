@@ -299,3 +299,22 @@ export const getProfileImageController=asyncHandler(async(req,res)=>{
 
 })
 
+
+export const logoutController=asyncHandler(async(req,res)=>{
+    res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: true, // Use only in HTTPS
+        sameSite: "Strict",
+        path: "/",
+    });
+
+    res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "Strict",
+        path: "/",
+    });
+
+    return res.status(200).json(new ApiResponse(200,{},"user logged out successfully"));
+})
+
