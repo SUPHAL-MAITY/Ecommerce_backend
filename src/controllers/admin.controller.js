@@ -93,7 +93,7 @@ export const adminDashBoardController=asyncHandler(async(req,res)=>{
 })
 
 
-export const authCheckController=asyncHandler(async(req,res)=>{
+export const adminAuthCheckController=asyncHandler(async(req,res)=>{
 
         const accessToken=req.cookies.accessToken
         console.log("access token in auth Check",accessToken)

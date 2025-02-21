@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { adminDashBoardController, authCheckController } from "../controllers/admin.controller.js";
+import { adminAuthCheckController, adminDashBoardController } from "../controllers/admin.controller.js";
 
 
 
@@ -8,7 +8,7 @@ const router=Router()
 
 
 router.route("/admin-details").get(adminDashBoardController )
-router.route("/auth").get(authCheckController)
+router.route("/auth").get(adminAuthCheckController)
 
 
 export default router;
