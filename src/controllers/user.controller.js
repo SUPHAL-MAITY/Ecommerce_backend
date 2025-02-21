@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Reviews } from "../models/review.model.js";
+import jwt from "jsonwebtoken"
 
 
  export  const createUserController=asyncHandler(async(req,res)=>{
@@ -253,6 +254,48 @@ export const getAddressController=asyncHandler(async(req,res)=>{
     })
 
     return res.status(200).json(new ApiResponse(200,addressList,"address fetched successfully"))
+
+})
+
+
+export const getProfileImageController=asyncHandler(async(req,res)=>{
+    const accessToken=req.cookies.accessToken;
+    console.log(accessToken)
+
+    if(!accessToken){
+        throw new ApiError(400,"Access token is not available for getting profile image")
+    }
+
+
+    let decodedAccessToken=jwt.verify(accessToken,process.env.ACCESS_TOKEN_SECRET)
+    
+    if(!decodedAccessToken){
+        throw new ApiError(400,"decodedAccessToken is not available while fetching profile image")
+    }
+
+    const id=decodedAccessToken._id
+            
+    if(!id){
+        throw new ApiError(400,"id not found while fetching profile image")
+    }
+
+    const user=await User.findById(id)
+
+    if(!user){
+        throw new ApiError(400,"user not found while fetching profile image")
+    }
+
+    const profileUrl=user.profileUrl;
+
+    if(!profileUrl){
+        throw  new ApiError(400,"profileUrl not found")
+    }
+
+    return res.status(200).json(new ApiResponse(200,profileUrl,"profile image fetched successfully"))
+
+
+
+
 
 })
 

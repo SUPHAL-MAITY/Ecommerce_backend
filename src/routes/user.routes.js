@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {getAddressController, addAddressController, createUserController, deleteUserController, editUserController, getAllUsersController, getOwnUserController, loginUserController, searchUserController, uploadUserImage } from "../controllers/user.controller.js";
+import {getAddressController, addAddressController, createUserController, deleteUserController, editUserController, getAllUsersController, getOwnUserController, loginUserController, searchUserController, uploadUserImage, getProfileImageController } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJwtToken,isAdmin } from "../middlewares/auth.middleware.js";
 
@@ -10,6 +10,7 @@ import { verifyJwtToken,isAdmin } from "../middlewares/auth.middleware.js";
 
 const router=Router()
 
+router.route("/profile-image").get(getProfileImageController)
 router.route("/get-user-address").get(verifyJwtToken,getAddressController)
 router.route("/get-all-users").get(getAllUsersController)
 router.route("/get-own-details").get(getOwnUserController)
