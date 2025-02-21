@@ -318,3 +318,43 @@ export const logoutController=asyncHandler(async(req,res)=>{
     return res.status(200).json(new ApiResponse(200,{},"user logged out successfully"));
 })
 
+export const checkAuthController=asyncHandler(async(req,res)=>{
+     const accessToken=req.cookies.accessToken
+        console.log("access token",accessToken)
+    
+        if(!accessToken){
+            throw new ApiError(400," access token is not available in check auth ")
+        }
+    
+       let decodedAccessToken;
+    
+        try {
+            
+    
+        decodedAccessToken=jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
+        console.log("decoded access token",decodedAccessToken)
+    
+            
+        } catch (error) {
+            console.log(error)
+    
+            if(error.name==="TokenExpiredError"){
+                console.log("acess token is expired")
+                throw new ApiError(401, "access token is expired");
+            }else{
+    
+                console.log("access token is invalid")
+                throw new ApiError(403, "access token is invalid.");
+    
+            }
+            
+            
+        }
+    
+      return res.status(200).json(new ApiResponse(200,{ loggedIn:true },"Token is avaiable"))
+            
+             
+        
+    
+})
+
