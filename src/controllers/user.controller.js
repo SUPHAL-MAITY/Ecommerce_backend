@@ -63,7 +63,12 @@ export const loginUserController=asyncHandler(async(req,res)=>{
      }
 
 
-     return res.status(200).cookie("accessToken",accessToken).json(new ApiResponse(200,user,"User Logged In Sucessfully"))
+     return res.status(200).cookie("accessToken",accessToken,{
+        httpOnly: true, // ✅ Prevents access from JavaScript
+        secure: process.env.NODE_ENV === "production", // ✅ Only send over HTTPS in production
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // ✅ Required for cross-site cookies
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // ✅ Set expiration (e.g., 7 days)
+      }).json(new ApiResponse(200,user,"User Logged In Sucessfully"))
 
       
 
