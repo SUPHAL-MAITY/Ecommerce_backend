@@ -14,13 +14,13 @@ const allowedOrgin=process.env.NODE_ENV==="production" ? "https://ecom-frontend-
 
 /// need to improve later 
 app.use(cors({
-    // origin: process.env.CORS_ORIGIN, 
-    // credentials: true
-    //    origin:"*",
+   
     origin: allowedOrgin,
     
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow the methods you need
-    
+    httpOnly: true, 
+    secure: process.env.NODE_ENV === "production", // ❌ Set to false in dev
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // ✅ Important for CORS
     credentials: true,
 }))
 
