@@ -96,7 +96,7 @@ export const adminDashBoardController=asyncHandler(async(req,res)=>{
 export const adminAuthCheckController=asyncHandler(async(req,res)=>{
 
         const accessToken=req.cookies.accessToken
-        console.log("access token in auth Check",accessToken)
+        // console.log("access token in admin auth Check",accessToken)
     
         if(!accessToken){
             throw new ApiError(400," access token is not available")
@@ -105,21 +105,21 @@ export const adminAuthCheckController=asyncHandler(async(req,res)=>{
        let decodedAccessToken;
     
         try {
-            console.log("🔑 Secret Key:", process.env.ACCESS_TOKEN_SECRET);
+            // console.log("🔑 Secret Key:", process.env.ACCESS_TOKEN_SECRET);
     
             decodedAccessToken=jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET)
-            console.log("decoded access token in auth check controller",decodedAccessToken)
+            // console.log("decoded access token in auth check controller",decodedAccessToken)
     
             
         } catch (error) {
             console.log(error)
     
             if(error.name==="TokenExpiredError"){
-                console.log("acess token is expired")
+                // console.log("acess token is expired")
                 throw new ApiError(401, "access token is expired.");
             }else{
     
-                console.log("access token is invalid")
+                // console.log("access token is invalid")
                 throw new ApiError(401, "access token is invalid.");
     
             }
@@ -128,7 +128,7 @@ export const adminAuthCheckController=asyncHandler(async(req,res)=>{
         }
     
         if(decodedAccessToken){
-            console.log("id",decodedAccessToken._id)
+            // console.log("id",decodedAccessToken._id)
             const id=decodedAccessToken._id
             
             if(!id){
