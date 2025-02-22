@@ -18,9 +18,6 @@ app.use(cors({
     origin: allowedOrgin,
     
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow the methods you need
-    httpOnly: true, 
-    secure: process.env.NODE_ENV === "production", // ❌ Set to false in dev
-    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // ✅ Important for CORS
     credentials: true,
 }))
 
