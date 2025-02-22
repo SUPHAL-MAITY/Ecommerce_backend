@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser"
 
 const app=express()
 
-
+const allowedOrgin=process.env.NODE_ENV==="production" ? "https://ecom-frontend-tawny.vercel.app":"http://localhost:5173"
 
 
 
@@ -17,7 +17,8 @@ app.use(cors({
     // origin: process.env.CORS_ORIGIN, 
     // credentials: true
     //    origin:"*",
-    origin: 'http://localhost:5173',  // Allow requests from your frontend's origin
+    origin: allowedOrgin,
+    
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow the methods you need
     
     credentials: true,
