@@ -55,8 +55,8 @@ export const createCheckoutSession=asyncHandler(async(req,res)=>{
         payment_method_types:["card"],
         line_items:lineItems,
         mode:"payment",
-        success_url:`http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url:"http://localhost:5173/fail",
+        success_url:`https://ecom-frontend-tawny.vercel.app/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url:"https://ecom-frontend-tawny.vercel.app/fail",
         metadata: {
             userId: 23343565,
             
